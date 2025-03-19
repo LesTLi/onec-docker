@@ -7,9 +7,6 @@ FROM ${DOCKER_REGISTRY_URL}/${BASE_IMAGE}:${BASE_TAG}
 # Installing mono and oscript dependencies
 ARG MONO_VERSION=6.12.0.122
 
-ENV LANG="C.UTF-8" \
-    LC_ALL="C.UTF-8"
-
 RUN apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       ca-certificates \
