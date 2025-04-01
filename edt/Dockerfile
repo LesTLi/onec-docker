@@ -54,7 +54,6 @@ RUN apt-get update \
     # edt dependencies
     libgtk-3-0 \
     locales \
-  && cd / \
   && rm -rf  \
     /var/lib/apt/lists/* \
     /var/cache/debconf \
@@ -71,7 +70,6 @@ RUN chmod +x ./1ce-installer-cli \
   && mv $(dirname $(find /opt/1C/1CE -name ring)) /opt/1C/1CE/components/1c-enterprise-ring \
   #1cedtcli отсутствует в EDT версии <2023.1.0
   && if [ -n "$(find /opt/1C/1CE -name 1cedtcli)" ]; then mv $(dirname $(find /opt/1C/1CE -name 1cedtcli)) /opt/1C/1CE/components/1cedtcli; fi \
-  && cd / \
   && rm -rf \
     /tmp/*
 
