@@ -67,9 +67,9 @@ WORKDIR /tmp/${downloads}
 
 RUN chmod +x ./1ce-installer-cli \
   && ./1ce-installer-cli install all --ignore-hardware-checks --ignore-signature-warnings\
-  && mv $(dirname $(find /opt/1C/1CE -name ring)) /opt/1C/1CE/components/1c-enterprise-ring \
+  && ln -s $(dirname $(find /opt/1C/1CE -name ring)) /opt/1C/1CE/components/1c-enterprise-ring \
   #1cedtcli отсутствует в EDT версии <2023.1.0
-  && if [ -n "$(find /opt/1C/1CE -name 1cedtcli)" ]; then mv $(dirname $(find /opt/1C/1CE -name 1cedtcli)) /opt/1C/1CE/components/1cedtcli; fi \
+  && if [ -n "$(find /opt/1C/1CE -name 1cedtcli)" ]; then ln -s $(dirname $(find /opt/1C/1CE -name 1cedtcli)) /opt/1C/1CE/components/1cedtcli; fi \
   && rm -rf \
     /tmp/*
 
@@ -99,5 +99,8 @@ ENV LC_ALL ru_RU.UTF-8
 
 # Copy EDT
 COPY --from=installer /opt/1C/1CE /opt/1C/1CE
+
+# Copy ring conf
+COPY --from=installer /etc/1C/1CE/ring-commands.cfg /etc/1C/1CE/ring-commands.cfg
 
 ENV PATH="/opt/1C/1CE/components/1c-enterprise-ring:/opt/1C/1CE/components/1cedtcli:$PATH"
