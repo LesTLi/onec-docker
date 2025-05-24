@@ -91,6 +91,7 @@ RUN set -xe \
       libodbc1 \
       libmagickwand-6.q16-3 \
       dbus-x11 \
+      libglu1-mesa \
   && rm -rf  \
     /var/lib/apt/lists/* \
     /var/cache/debconf \

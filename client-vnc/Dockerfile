@@ -48,6 +48,7 @@ RUN apt-get update \
       procps \
       x11vnc \
       iproute2 \
+      libglu1-mesa \
   # Install libpng12-0 from xenial
   && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 40976EAF437D05B5 \
   && echo "deb http://security.ubuntu.com/ubuntu xenial-security main" > /etc/apt/sources.list.d/xenial-security.list \
