@@ -62,6 +62,7 @@ jobs:
         DEV1C_EXECUTOR_API_KEY: ${{secrets.DEV1C_EXECUTOR_API_KEY}}
         ONEC_VERSION: '8.3.24.1624'
         EDT_VERSION: '2023.3.6'
+        EXECUTOR_VERSION: '7.0.3.3'
         COVERAGE41C_VERSION: '2.7.3'
         DOCKER_SYSTEM_PRUNE: 'false'
       run: |
