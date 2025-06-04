@@ -8,7 +8,7 @@ if [ -n "${DOCKER_LOGIN}" ] && [ -n "${DOCKER_PASSWORD}" ] && [ -n "${DOCKER_REG
     fi
 else
     echo "Skipping Docker login due to missing credentials"
-fiлы
+fi
 
 if [ "${DOCKER_SYSTEM_PRUNE}" = 'true' ] ; then
     docker system prune -af
