@@ -1,18 +1,12 @@
 ARG DOCKER_REGISTRY_URL=library
 ARG BASE_IMAGE=ubuntu
-ARG BASE_TAG=22.04
+ARG BASE_TAG=24.04
 FROM ${DOCKER_REGISTRY_URL}/${BASE_IMAGE}:${BASE_TAG}
 
 LABEL maintainer="i@pravets.ru"
 LABEL author="Iosif Pravets"
 
 ARG EXECUTOR_VERSION
-
-# Устанавливаем необходимые зависимости
-RUN apt-get update && apt-get install -y \
-    ca-certificates \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp
 
@@ -40,11 +34,11 @@ RUN --mount=type=secret,id=dev1c_executor_api_key \
     https://developer.1c.ru/applications/Console/api/v1/download/executor/${EXECUTOR_VERSION}/linux \
   && unzip executor.zip \
   && rm executor.zip \
-  && mkdir /opt/executor \
-  && cp -R * /opt/executor \
+  && mkdir -p /opt/1C/executor \
+  && cp -R * /opt/1C/executor \
 # cleanup
   && rm -rf /tmp/* \
   && apt purge -y unzip
 
-ENV PATH="/opt/executor:$PATH"
-ENTRYPOINT ["/opt/executor/executor"]
+ENV PATH="/opt/1C/executor:$PATH"
+ENTRYPOINT ["/opt/1C/executor/executor"]
