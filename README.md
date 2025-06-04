@@ -26,6 +26,7 @@
   - [oscript](#oscript)
   - [vanessa-runner](#vanessa-runner)
   - [EDT](#edt)
+  - [Исполнитель](#Исполнитель)
 
 # Использование
 
@@ -50,6 +51,8 @@ copy .onec.env.bat.example env.bat
 * DOCKER_REGISTRY_URL - Адрес Docker-registry в котором будут храниться образы
 * COVERAGE41C_VERSION - версия Coverage41C
 Используется при сборке агента скриптами `build-base-*-jenkins-coverage-agent.*`.
+* DEV1C_EXECUTOR_API_KEY - токен для api скачивания 1С:Исполнитель с сайта developer.1c.ru
+* EXECUTOR_VERSION - версия 1С:Исполнитель для сборки
 
 Затем экспортируйте все необходимые переменные:
 
@@ -226,3 +229,11 @@ docker build --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
     -t ${DOCKER_REGISTRY_URL}/edt:${EDT_VERSION} \
     -f edt/Dockerfile .
 ```
+
+## Исполнитель
+[(Наверх)](#Оглавление)
+```bash
+./build-executor.sh
+```
+
+Собирать обязательно через запуск скрипта, так как в нём реализован безопасный проброс секретов в окружение сборки
