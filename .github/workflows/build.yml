@@ -21,15 +21,7 @@ jobs:
 
     steps:
     - name: Maximize build space
-      uses: easimon/maximize-build-space@master
-      with:
-        root-reserve-mb: 25000
-        swap-size-mb: 1024
-        remove-dotnet: 'true'
-        remove-android: 'true'
-    - name: Restart Docker service
-      run: |
-        sudo service docker restart   
+      uses: jlumbroso/free-disk-space@main 
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
