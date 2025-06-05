@@ -22,7 +22,12 @@ jobs:
     steps:
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
-        
+      with:
+        remove-dotnet: 'true'
+        remove-android: 'true'
+    - name: Restart Docker service
+      run: |
+        sudo service docker restart   
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
