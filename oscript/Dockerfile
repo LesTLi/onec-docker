@@ -37,7 +37,7 @@ RUN chmod +x /remove-dst-root-ca-x3.sh \
 
 # Installing oscript
 ARG OVM_REPOSITORY_OWNER=oscript-library
-ARG OVM_VERSION=v1.2.3
+ARG OVM_VERSION=v1.6.1
 ARG ONESCRIPT_VERSION=stable
 ARG ONESCRIPT_PACKAGES="add gitsync vanessa-runner stebi edt-ripper"
 
