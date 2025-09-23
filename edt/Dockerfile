@@ -32,9 +32,9 @@ RUN apt-get update \
   && localedef -i ru_RU -c -f UTF-8 -A /usr/share/locale/locale.alias ru_RU.UTF-8
 
 # Установка переменных окружения для корректной работы локали
-ENV LANG ru_RU.UTF-8
-ENV LANGUAGE ru_RU:ru
-ENV LC_ALL ru_RU.UTF-8
+ENV LANG=ru_RU.UTF-8
+ENV LANGUAGE=ru_RU:ru
+ENV LC_ALL=ru_RU.UTF-8
 
 RUN /download.sh "$ONEC_USERNAME" "$ONEC_PASSWORD" "$EDT_VERSION" "edt"
 
@@ -71,7 +71,9 @@ RUN chmod +x ./1ce-installer-cli \
   #1cedtcli отсутствует в EDT версии <2023.1.0
   && if [ -n "$(find /opt/1C/1CE -name 1cedtcli)" ]; then ln -s $(dirname $(find /opt/1C/1CE -name 1cedtcli)) /opt/1C/1CE/components/1cedtcli; fi \
   && rm -rf \
-    /tmp/*
+    /tmp/* \
+  # создадим пустой файл, чтобы не было ошибок на следуюших этапах в случае его отсутствия
+  && if [ ! -f /etc/1C/1CE/ring-commands.cfg ]; then touch /etc/1C/1CE/ring-commands.cfg; fi
 
 FROM ${BASE_IMAGE}:${BASE_TAG}
 
@@ -93,9 +95,9 @@ RUN apt-get update \
   && localedef -i ru_RU -c -f UTF-8 -A /usr/share/locale/locale.alias ru_RU.UTF-8
 
 # Установка переменных окружения для корректной работы локали
-ENV LANG ru_RU.UTF-8
-ENV LANGUAGE ru_RU:ru
-ENV LC_ALL ru_RU.UTF-8
+ENV LANG=ru_RU.UTF-8
+ENV LANGUAGE=ru_RU:ru
+ENV LC_ALL=ru_RU.UTF-8
 
 # Copy EDT
 COPY --from=installer /opt/1C/1CE /opt/1C/1CE
