@@ -11,10 +11,22 @@ ARG OPENJDK_VERSION=17
 
 RUN apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      apt-transport-https \
       ca-certificates \
       git \
+      gnupg \
+      dirmngr \
       locales \
-      openjdk-${OPENJDK_VERSION}-jdk \
+      software-properties-common \
+      wget \
+  && update-ca-certificates \
+  && mkdir -p /etc/apt/keyrings \
+  && echo "Acquire::https::packages.adoptium.net::Verify-Peer \"false\";" | tee /etc/apt/apt.conf.d/adoptium-no-check-cert \
+  && wget --no-check-certificate -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor -o /etc/apt/keyrings/adoptium.gpg \
+  && echo "deb [signed-by=/etc/apt/keyrings/adoptium.gpg] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list \
+  && apt update \
+  && apt install -y temurin-${OPENJDK_VERSION}-jdk \
+  && rm -f /etc/apt/apt.conf.d/adoptium-no-check-cert \
   && localedef -i ru_RU -c -f UTF-8 -A /usr/share/locale/locale.alias ru_RU.UTF-8
 
 # remove DST Root CA X3 cert if it exists
