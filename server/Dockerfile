@@ -79,7 +79,7 @@ ADD https://github.com/tianon/gosu/releases/download/$gosu_ver/gosu-amd64 /bin/g
 RUN chmod +x /bin/gosu
 
 # Переход к финальному образу
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 LABEL maintainer="ivanov egor"
 
 # Создание пользователя и установка локали

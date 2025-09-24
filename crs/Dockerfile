@@ -24,7 +24,7 @@ RUN rm ./${downloads}/.gitkeep \
   && for file in ${downloads}/*.tar.gz; do tar -xzf "$file"; done \
   && rm -rf ${downloads}/*.*
 
-FROM i386/debian:bullseye-slim as base
+FROM i386/debian:bookworm-slim as base
 
 ARG gosu_ver=1.11
 ARG ONEC_VERSION
@@ -51,7 +51,7 @@ ADD https://github.com/tianon/gosu/releases/download/$gosu_ver/gosu-i386 /bin/go
 
 RUN chmod +x /bin/gosu
 
-FROM i386/debian:bullseye-slim
+FROM i386/debian:bookworm-slim
 LABEL maintainer="Anton Kvashenkin <anton.jugatsu@gmail.com> (@jugatsu)"
 
 ARG onec_uid="999"
