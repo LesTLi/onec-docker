@@ -1,6 +1,6 @@
 ARG DOCKER_REGISTRY_URL
 ARG ONEC_VERSION
-FROM ${DOCKER_REGISTRY_URL}/onec-client:${ONEC_VERSION} as base
+FROM ${DOCKER_REGISTRY_URL}/onec-client:${ONEC_VERSION} AS base
 
 FROM debian:bookworm-slim
 ARG ONEC_VERSION
@@ -49,13 +49,14 @@ RUN apt-get update \
       x11vnc \
       iproute2 \
       libglu1-mesa \
-  # Install libpng12-0 from xenial
-  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 40976EAF437D05B5 \
-  && echo "deb http://security.ubuntu.com/ubuntu xenial-security main" > /etc/apt/sources.list.d/xenial-security.list \
-  && apt-get update \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+  # Install libpng12-0 from debian-snapshot
+  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 7638D0442B90D010 8B48AD6246925553 \
+  && echo "deb http://snapshot.debian.org/archive/debian/20160413T160058Z/ unstable main" > /etc/apt/sources.list.d/debian-snapshot.list \
+  && apt-get -o Acquire::AllowInsecureRepositories=true -o Acquire::Check-Valid-Until=false update \
+  && DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-unauthenticated --no-install-recommends \
+      usrmerge \  
       libpng12-0 \
-  && rm -rf  /etc/apt/sources.list.d/xenial-security.list \
+  && rm -rf  /etc/apt/sources.list.d/debian-snapshot.list \
   && apt-get update \
   # Install libwebkitgtk from stretch
   && echo "deb http://archive.debian.org/debian/ stretch main contrib non-free" > /etc/apt/sources.list.d/stretch.list \
@@ -68,7 +69,7 @@ RUN apt-get update \
     /var/lib/apt/lists/* \
     /var/cache/debconf \
   && localedef -i ru_RU -c -f UTF-8 -A /usr/share/locale/locale.alias ru_RU.UTF-8
-ENV LANG ru_RU.UTF-8
+ENV LANG=ru_RU.UTF-8
 
 # remove DST Root CA X3 cert if it exists
 COPY ./scripts/remove-dst-root-ca-x3.sh /remove-dst-root-ca-x3.sh

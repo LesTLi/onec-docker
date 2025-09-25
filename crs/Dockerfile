@@ -1,4 +1,4 @@
-FROM alpine:latest as downloader
+FROM alpine:latest AS downloader
 
 ARG ONEC_USERNAME
 ARG ONEC_PASSWORD
@@ -24,7 +24,7 @@ RUN rm ./${downloads}/.gitkeep \
   && for file in ${downloads}/*.tar.gz; do tar -xzf "$file"; done \
   && rm -rf ${downloads}/*.*
 
-FROM i386/debian:bookworm-slim as base
+FROM i386/debian:bookworm-slim AS base
 
 ARG gosu_ver=1.11
 ARG ONEC_VERSION

@@ -7,7 +7,7 @@ ARG BASE_IMAGE=eclipse-temurin
 ARG BASE_TAG=11
 ARG DOCKER_REGISTRY_URL=library
 
-FROM ${DOWNLOADER_REGISTRY_URL}/${DOWNLOADER_IMAGE}:${DOWNLOADER_TAG} as downloader
+FROM ${DOWNLOADER_REGISTRY_URL}/${DOWNLOADER_IMAGE}:${DOWNLOADER_TAG} AS downloader
 
 # Копирование скрипта скачивания и локальных дистрибутивов
 COPY ./scripts/download_yard.sh /download.sh
@@ -38,7 +38,7 @@ ENV LC_ALL=ru_RU.UTF-8
 
 RUN /download.sh "$ONEC_USERNAME" "$ONEC_PASSWORD" "$EDT_VERSION" "edt"
 
-FROM ${BASE_IMAGE}:${BASE_TAG} as installer
+FROM ${BASE_IMAGE}:${BASE_TAG} AS installer
 
 LABEL maintainer="Nikita Gryzlov <NikGryzlov@1bit.com>, FirstBit"
 
