@@ -77,7 +77,7 @@ RUN chmod +x /remove-dst-root-ca-x3.sh \
   && /remove-dst-root-ca-x3.sh \
   && rm /remove-dst-root-ca-x3.sh
 
-RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
+RUN tar xzfh /tmp/s6-overlay-amd64.tar.gz -C / \
   && rm -rf /tmp/s6-overlay-amd64.tar.gz
 
 RUN groupadd -r usr1cv8 --gid=2001 \
