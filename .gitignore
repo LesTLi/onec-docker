@@ -1,8 +1,8 @@
 .vagrant
 
 .env
-.onec.env
-.onec.env.bat
+#.onec.env
+#.onec.env.bat
 env.bat
 build_info.txt
 .DS_Store
