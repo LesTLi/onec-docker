@@ -5,5 +5,5 @@ call .onec.env.bat
 docker build --build-arg DOCKER_REGISTRY_URL=%DOCKER_REGISTRY_URL% ^
   --build-arg BASE_IMAGE=onec-client-vnc ^
   --build-arg BASE_TAG=%ONEC_VERSION% ^
-  -t %DOCKER_REGISTRY_URL%/oscript:%ONEC_VERSION%-stable ^
+  -t %DOCKER_REGISTRY_URL%/onec-client-vnc-oscript:%ONEC_VERSION% ^
   -f oscript/Dockerfile .
