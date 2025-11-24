@@ -18,7 +18,8 @@ RUN apt-get update && \
 
 COPY --from=base /opt /opt
 
-ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz /tmp/
+ADD https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay-noarch.tar.xz /tmp/
+ADD https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay-x86_64.tar.xz /tmp/
 
 RUN apt-get update \
   && apt-mark hold iptables \
@@ -36,14 +37,14 @@ RUN apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     dirmngr \
     gnupg \
-  # && echo "deb http://http.debian.net/debian/ bookworm main contrib non-free" > /etc/apt/sources.list \
-  # && echo "deb http://http.debian.net/debian/ bookworm-backports main" >> /etc/apt/sources.list \
-  # && echo "deb http://http.debian.net/debian/ bookworm-proposed-updates main contrib non-free" >> /etc/apt/sources.list \
-  # && echo "deb http://security.debian.org/debian-security/ bookworm-security main contrib non-free" >> /etc/apt/sources.list \
-  && echo "deb http://${APT_REPOSITORY}/repository/debian-main/ ${APT_RELEASE} main contrib non-free" > /etc/apt/sources.list \
-  && echo "deb http://${APT_REPOSITORY}/repository/debian-main/ ${APT_RELEASE}-backports main contrib non-free" >> /etc/apt/sources.list \
-  && echo "deb http://${APT_REPOSITORY}/repository/debian-main/ ${APT_RELEASE}-proposed-updates main contrib non-free" >> /etc/apt/sources.list \
-  && echo "deb http://${APT_REPOSITORY}/repository/debian-security/ ${APT_RELEASE}-security main contrib non-free" >> /etc/apt/sources.list \
+  && echo "deb http://http.debian.net/debian/ bookworm main contrib non-free" > /etc/apt/sources.list \
+  && echo "deb http://http.debian.net/debian/ bookworm-backports main" >> /etc/apt/sources.list \
+  && echo "deb http://http.debian.net/debian/ bookworm-proposed-updates main contrib non-free" >> /etc/apt/sources.list \
+  && echo "deb http://security.debian.org/debian-security/ bookworm-security main contrib non-free" >> /etc/apt/sources.list \
+  # && echo "deb http://${APT_REPOSITORY}/repository/debian-main/ ${APT_RELEASE} main contrib non-free" > /etc/apt/sources.list \
+  # && echo "deb http://${APT_REPOSITORY}/repository/debian-main/ ${APT_RELEASE}-backports main contrib non-free" >> /etc/apt/sources.list \
+  # && echo "deb http://${APT_REPOSITORY}/repository/debian-main/ ${APT_RELEASE}-proposed-updates main contrib non-free" >> /etc/apt/sources.list \
+  # && echo "deb http://${APT_REPOSITORY}/repository/debian-security/ ${APT_RELEASE}-security main contrib non-free" >> /etc/apt/sources.list \
   && echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections \
   && apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -93,6 +94,10 @@ RUN chmod +x /remove-dst-root-ca-x3.sh \
 
 RUN tar xzfh /tmp/s6-overlay-amd64.tar.gz -C / \
   && rm -rf /tmp/s6-overlay-amd64.tar.gz
+
+RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
+  && tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz \
+  && rm -f /tmp/s6-overlay-noarch.tar.xz /tmp/s6-overlay-x86_64.tar.xz
 
 RUN groupadd -r usr1cv8 --gid=2001 \
   && useradd -r -g usr1cv8 --uid=2001 --home-dir=/home/usr1cv8 --shell=/sbin/nologin usr1cv8 \
