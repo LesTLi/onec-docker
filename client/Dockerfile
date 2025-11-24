@@ -23,6 +23,7 @@ RUN apt-get update \
           locales \
           p7zip-rar \
           p7zip-full \
+          curl \
   && rm -rf /var/lib/apt/lists/* \
   && locale-gen ru_RU.UTF-8 \
   && localedef -i ru_RU -c -f UTF-8 -A /usr/share/locale/locale.alias ru_RU.UTF-8
