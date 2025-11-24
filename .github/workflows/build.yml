@@ -77,15 +77,13 @@ jobs:
     # --------------------------
     #  SAVE DOCKER IMAGE AS ARTIFACT
     # --------------------------
-    - name: Save Docker image to file
+    - name: Save Docker image to artifact
       run: |
-        docker save "${{ env.DOCKER_REGISTRY_URL }}/onec-client-vnc-oscript-jdk-testutils:${{ env.ONEC_VERSION }}" -o onec-client-vnc-oscript-jdk-testutils:${{ env.ONEC_VERSION }}.tar
-
-    - name: Upload Docker image artifact
-      uses: actions/upload-artifact@v5
+        docker save "localhost:5000/onec-client-vnc-oscript-jdk-testutils:8.3.25.1445" -o onec-client-vnc-oscript-jdk-testutils:8.3.25.1445.tar
+    - uses: actions/upload-artifact@v5
       with:
-        name: onec-client-vnc-oscript-jdk-testutils-${{ env.ONEC_VERSION }}
-        path: onec-client-vnc-oscript-jdk-testutils-${{ env.ONEC_VERSION }}.tar
+        name: onec-client-vnc-oscript-jdk-testutils:8.3.25.1445
+        path: onec-client-vnc-oscript-jdk-testutils:8.3.25.1445.tar
 
     # --------------------------
 
