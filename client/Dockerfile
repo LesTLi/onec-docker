@@ -6,7 +6,7 @@ ARG BASE_TAG
 FROM library/ubuntu:18.04 AS downloader
 
 # Копирование скрипта скачивания и локальных дистрибутивов
-COPY ./scripts/download_og.sh /download.sh
+COPY ./scripts/download_yard.sh /download.sh
 COPY ./distr /distr
 RUN chmod +x /download.sh
 
@@ -23,7 +23,7 @@ RUN apt-get update \
           locales \
           p7zip-rar \
           p7zip-full \
-          curl \
+          yard \
   && rm -rf /var/lib/apt/lists/* \
   && locale-gen ru_RU.UTF-8 \
   && localedef -i ru_RU -c -f UTF-8 -A /usr/share/locale/locale.alias ru_RU.UTF-8
