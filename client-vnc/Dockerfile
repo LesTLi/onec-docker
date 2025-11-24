@@ -7,14 +7,14 @@ ARG ONEC_VERSION
 ARG APT_REPOSITORY="rpm.ftc.ru/nexus"
 ARG APT_RELEASE="bookworm"
 
-# Копируем сертификат прокси в образ
-COPY ./certs/InfoWatch-Transparent-Proxy-Root.crt /usr/local/share/ca-certificates/InfoWatch-Transparent-Proxy-Root.crt
-# Обновляем хранилище CA
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    ca-certificates && \
-    update-ca-certificates && \
-    rm -rf /var/lib/apt/lists/*
+# # Копируем сертификат прокси в образ
+# COPY ./certs/InfoWatch-Transparent-Proxy-Root.crt /usr/local/share/ca-certificates/InfoWatch-Transparent-Proxy-Root.crt
+# # Обновляем хранилище CA
+# RUN apt-get update && \
+#     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+#     ca-certificates && \
+#     update-ca-certificates && \
+#     rm -rf /var/lib/apt/lists/*
 
 COPY --from=base /opt /opt
 
