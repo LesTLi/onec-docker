@@ -1,12 +1,17 @@
 .vagrant
 
 .env
-.onec.env
+#.onec.env
+#.onec.env.bat
 env.bat
 build_info.txt
 .DS_Store
 dive.log
+.idea
 
 # Configuration file for HASP LM
 nethasp.ini
-distr/
+distr/*
+!distr/.gitkeep
+certs/*
+!certs/.gitkeep
