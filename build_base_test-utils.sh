@@ -41,7 +41,7 @@ docker build \
     -f client/Dockerfile \
     $last_arg
 
-# docker push $DOCKER_REGISTRY_URL/onec-client:$ONEC_VERSION
+docker push $DOCKER_REGISTRY_URL/onec-client:$ONEC_VERSION
 
 docker build \
     --pull \
@@ -53,7 +53,7 @@ docker build \
     -f client-vnc/Dockerfile \
     $last_arg
 
-# docker push $DOCKER_REGISTRY_URL/onec-client-vnc:$ONEC_VERSION
+docker push $DOCKER_REGISTRY_URL/onec-client-vnc:$ONEC_VERSION
 
 docker build \
     --build-arg DOCKER_REGISTRY_URL=$DOCKER_REGISTRY_URL \
