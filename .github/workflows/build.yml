@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        script: [ 'build-base-k8s-jenkins-agent.sh', 'build-base-k8s-jenkins-coverage-agent.sh', 'build-base-swarm-jenkins-agent.sh', 'build-base-swarm-jenkins-coverage-agent.sh', 'build-edt-swarm-agent.sh', 'build-edt-k8s-agent.sh', 'build-oscript-k8s-agent.sh', 'build-oscript-swarm-agent.sh', 'build-server.sh', 'build-executor.sh']
+        script: [ 'build_onec_client.sh']
 
     steps:
     - name: Maximize build space
@@ -59,10 +59,10 @@ jobs:
         DOCKER_REGISTRY_URL: 'localhost:5000'
         DOCKER_LOGIN: ""
         DOCKER_PASSWORD: ""
-        ONEC_USERNAME: ${{ secrets.ONEC_USERNAME}}
-        ONEC_PASSWORD: ${{ secrets.ONEC_PASSWORD}}
-        DEV1C_EXECUTOR_API_KEY: ${{secrets.DEV1C_EXECUTOR_API_KEY}}
-        ONEC_VERSION: '8.3.24.1624'
+        ONEC_USERNAME: ""
+        ONEC_PASSWORD: ""
+        DEV1C_EXECUTOR_API_KEY: ""
+        ONEC_VERSION: '8.3.25.1445'
         EDT_VERSION: '2023.3.6'
         EXECUTOR_VERSION: '7.0.3.3'
         COVERAGE41C_VERSION: '2.7.3'
