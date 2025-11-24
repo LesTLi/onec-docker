@@ -79,12 +79,11 @@ jobs:
     # --------------------------
     - name: Save Docker image to artifact
       run: |
-        docker save "localhost:5000/onec-client-vnc-oscript-jdk-testutils:8.3.25.1445" -o onec-client-vnc-oscript-jdk-testutils:8.3.25.1445.tar
+        docker save "localhost:5000/onec-client-vnc-oscript-jdk-testutils:8.3.25.1445" -o onec-client-vnc-oscript-jdk-testutils_8.3.25.1445.tar
     - uses: actions/upload-artifact@v5
       with:
-        name: onec-client-vnc-oscript-jdk-testutils:8.3.25.1445
-        path: onec-client-vnc-oscript-jdk-testutils:8.3.25.1445.tar
-
+        name: onec-client-vnc-oscript-jdk-testutils_8.3.25.1445
+        path: onec-client-vnc-oscript-jdk-testutils_8.3.25.1445.tar
     # --------------------------
 
     - name: Update PR Check Status (Completed)
