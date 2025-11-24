@@ -17,11 +17,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        script: [ 'build_onec_client.sh']
+        script: ['build_onec_client.sh']
 
     steps:
     - name: Maximize build space
-      uses: jlumbroso/free-disk-space@main 
+      uses: jlumbroso/free-disk-space@main
+
     - name: Checkout repository
       uses: actions/checkout@v5
       with:
@@ -71,7 +72,22 @@ jobs:
         docker system prune -af
         docker run -d -p 5000:5000 --name registry registry:2
         ./${{ matrix.script }}
-        
+
+    # --------------------------
+    #  SAVE DOCKER IMAGE AS ARTIFACT
+    # --------------------------
+    - name: Save Docker image to file
+      run: |
+        docker save "${DOCKER_REGISTRY_URL}/onec-client:${ONEC_VERSION}" -o onec-client-${ONEC_VERSION}.tar
+
+    - name: Upload Docker image artifact
+      uses: actions/upload-artifact@v5
+      with:
+        name: onec-client-${{ env.ONEC_VERSION }}
+        path: onec-client-${{ env.ONEC_VERSION }}.tar
+
+    # --------------------------
+
     - name: Update PR Check Status (Completed)
       if: always()
       uses: actions/github-script@v7
