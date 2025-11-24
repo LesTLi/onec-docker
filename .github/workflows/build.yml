@@ -60,8 +60,8 @@ jobs:
         DOCKER_REGISTRY_URL: 'localhost:5000'
         DOCKER_LOGIN: ""
         DOCKER_PASSWORD: ""
-        ONEC_USERNAME: ""
-        ONEC_PASSWORD: ""
+        ONEC_USERNAME: ${{ secrets.ONEC_USERNAME}}
+        ONEC_PASSWORD: ${{ secrets.ONEC_PASSWORD}}
         DEV1C_EXECUTOR_API_KEY: ""
         ONEC_VERSION: '8.3.25.1445'
         EDT_VERSION: '2023.3.6'
