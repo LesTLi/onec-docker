@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        script: ['build_onec_client.sh']
+        script: ['build_base_test-utils.sh']
 
     steps:
     - name: Maximize build space
@@ -79,13 +79,13 @@ jobs:
     # --------------------------
     - name: Save Docker image to file
       run: |
-        docker save "${DOCKER_REGISTRY_URL}/onec-client:${ONEC_VERSION}" -o onec-client-${ONEC_VERSION}.tar
+        docker save "$DOCKER_REGISTRY_URL/onec-client-vnc-oscript-jdk-testutils:$ONEC_VERSION" -o onec-client-vnc-oscript-jdk-testutils:$ONEC_VERSION.tar
 
     - name: Upload Docker image artifact
       uses: actions/upload-artifact@v5
       with:
-        name: onec-client-${{ env.ONEC_VERSION }}
-        path: onec-client-${{ env.ONEC_VERSION }}.tar
+        name: onec-client-vnc-oscript-jdk-testutils-${{ env.ONEC_VERSION }}
+        path: onec-client-vnc-oscript-jdk-testutils-${{ env.ONEC_VERSION }}.tar
 
     # --------------------------
 
