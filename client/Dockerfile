@@ -6,7 +6,7 @@ ARG BASE_TAG
 FROM library/ubuntu:18.04 AS downloader
 
 # Копирование скрипта скачивания и локальных дистрибутивов
-COPY ./scripts/download_yard.sh /download.sh
+COPY ./scripts/download_og.sh /download.sh
 COPY ./distr /distr
 RUN chmod +x /download.sh
 
