@@ -31,6 +31,7 @@ RUN apt-get update \
     x11-xserver-utils \
     x11-utils \
     xvfb \
+    xz-utils \
   && env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     xfce4 \
     xfce4-goodies \
@@ -94,6 +95,7 @@ RUN chmod +x /remove-dst-root-ca-x3.sh \
   && /remove-dst-root-ca-x3.sh \
   && rm /remove-dst-root-ca-x3.sh
 
+RUN echo "Listing /tmp:" && ls -lia /tmp/
 # RUN tar xzfh /tmp/s6-overlay-amd64.tar.gz -C / \
 #   && rm -rf /tmp/s6-overlay-amd64.tar.gz
 RUN tar -Jxpf /tmp/s6-overlay-noarch.tar.xz -C / \
