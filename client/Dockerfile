@@ -22,6 +22,7 @@ RUN apt-get update \
           locales \
           p7zip-rar \
           p7zip-full \
+          xz-utils \
           yard \
   && rm -rf /var/lib/apt/lists/* \
   && locale-gen ru_RU.UTF-8 \
