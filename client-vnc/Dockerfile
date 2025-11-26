@@ -18,9 +18,9 @@ ARG ONEC_VERSION
 
 COPY --from=base /opt /opt
 
-ADD https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay-noarch.tar.xz /tmp/
-ADD https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay-x86_64.tar.xz /tmp/
-# ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz /tmp/
+# ADD https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay-noarch.tar.xz /tmp/
+# ADD https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay-x86_64.tar.xz /tmp/
+ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz /tmp/
 
 RUN apt-get update \
   && apt-mark hold iptables \
@@ -72,7 +72,7 @@ RUN apt-get update \
   && echo "deb http://snapshot.debian.org/archive/debian/20160413T160058Z/ unstable main" > /etc/apt/sources.list.d/debian-snapshot.list \
   && apt-get -o Acquire::AllowInsecureRepositories=true -o Acquire::Check-Valid-Until=false update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-unauthenticated --no-install-recommends \
-      # usrmerge \
+      usrmerge \
       libpng12-0 \
   && rm -rf  /etc/apt/sources.list.d/debian-snapshot.list \
   && apt-get update \
@@ -95,11 +95,11 @@ RUN chmod +x /remove-dst-root-ca-x3.sh \
   && /remove-dst-root-ca-x3.sh \
   && rm /remove-dst-root-ca-x3.sh
 
-# RUN tar xzfh /tmp/s6-overlay-amd64.tar.gz -C / \
-#   && rm -rf /tmp/s6-overlay-amd64.tar.gz
-RUN tar -Jxpf /tmp/s6-overlay-noarch.tar.xz -C / \
-  && tar -Jxpf /tmp/s6-overlay-x86_64.tar.xz -C / \
-  && rm -f /tmp/s6-overlay-noarch.tar.xz /tmp/s6-overlay-x86_64.tar.xz
+RUN tar xzfh /tmp/s6-overlay-amd64.tar.gz -C / \
+  && rm -rf /tmp/s6-overlay-amd64.tar.gz
+# RUN tar -Jxpf /tmp/s6-overlay-noarch.tar.xz -C / \
+#   && tar -Jxpf /tmp/s6-overlay-x86_64.tar.xz -C / \
+#   && rm -f /tmp/s6-overlay-noarch.tar.xz /tmp/s6-overlay-x86_64.tar.xz
 
 RUN groupadd -r usr1cv8 --gid=2001 \
   && useradd -r -g usr1cv8 --uid=2001 --home-dir=/home/usr1cv8 --shell=/sbin/nologin usr1cv8 \

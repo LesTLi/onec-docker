@@ -2,9 +2,9 @@ name: Pre-build checks
 
 on:
   push:
-    branches: [ feature/koronatech]
+    branches: [ test-build]
   pull_request:
-    branches: [ feature/koronatech]
+    branches: [ test-build]
   workflow_dispatch:
 
 jobs:
