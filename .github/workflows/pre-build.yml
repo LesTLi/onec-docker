@@ -2,9 +2,9 @@ name: Pre-build checks
 
 on:
   push:
-    branches: [ main]
+    branches: [ debian/bookworm-slim]
   pull_request:
-    branches: [ main]
+    branches: [ debian/bookworm-slim]
   workflow_dispatch:
 
 jobs:
