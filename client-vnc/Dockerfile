@@ -4,23 +4,12 @@ FROM ${DOCKER_REGISTRY_URL}/onec-client:${ONEC_VERSION} AS base
 
 FROM debian:bookworm-slim
 ARG ONEC_VERSION
-# ARG APT_REPOSITORY="rpm.ftc.ru/nexus"
-# ARG APT_RELEASE="bookworm"
-
-# # Копируем сертификат прокси в образ
-# COPY ./certs/InfoWatch-Transparent-Proxy-Root.crt /usr/local/share/ca-certificates/InfoWatch-Transparent-Proxy-Root.crt
-# # Обновляем хранилище CA
-# RUN apt-get update && \
-#     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-#     ca-certificates && \
-#     update-ca-certificates && \
-#     rm -rf /var/lib/apt/lists/*
 
 COPY --from=base /opt /opt
 
-ADD https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay-noarch.tar.xz /tmp/
-ADD https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay-x86_64.tar.xz /tmp/
-# ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz /tmp/
+# ADD https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay-noarch.tar.xz /tmp/
+# ADD https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay-x86_64.tar.xz /tmp/
+ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz /tmp/
 
 RUN apt-get update \
   && apt-mark hold iptables \
@@ -43,10 +32,6 @@ RUN apt-get update \
   && echo "deb http://http.debian.net/debian/ bookworm-backports main" >> /etc/apt/sources.list \
   && echo "deb http://http.debian.net/debian/ bookworm-proposed-updates main contrib non-free" >> /etc/apt/sources.list \
   && echo "deb http://security.debian.org/debian-security/ bookworm-security main contrib non-free" >> /etc/apt/sources.list \
-  # && echo "deb http://${APT_REPOSITORY}/repository/debian-main/ ${APT_RELEASE} main contrib non-free" > /etc/apt/sources.list \
-  # && echo "deb http://${APT_REPOSITORY}/repository/debian-main/ ${APT_RELEASE}-backports main contrib non-free" >> /etc/apt/sources.list \
-  # && echo "deb http://${APT_REPOSITORY}/repository/debian-main/ ${APT_RELEASE}-proposed-updates main contrib non-free" >> /etc/apt/sources.list \
-  # && echo "deb http://${APT_REPOSITORY}/repository/debian-security/ ${APT_RELEASE}-security main contrib non-free" >> /etc/apt/sources.list \
   && echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections \
   && apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -72,7 +57,7 @@ RUN apt-get update \
   && echo "deb http://snapshot.debian.org/archive/debian/20160413T160058Z/ unstable main" > /etc/apt/sources.list.d/debian-snapshot.list \
   && apt-get -o Acquire::AllowInsecureRepositories=true -o Acquire::Check-Valid-Until=false update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-unauthenticated --no-install-recommends \
-      # usrmerge \
+      usrmerge \
       libpng12-0 \
   && rm -rf  /etc/apt/sources.list.d/debian-snapshot.list \
   && apt-get update \
@@ -95,11 +80,11 @@ RUN chmod +x /remove-dst-root-ca-x3.sh \
   && /remove-dst-root-ca-x3.sh \
   && rm /remove-dst-root-ca-x3.sh
 
-# RUN tar xzfh /tmp/s6-overlay-amd64.tar.gz -C / \
-#   && rm -rf /tmp/s6-overlay-amd64.tar.gz
-RUN tar -Jxpf /tmp/s6-overlay-noarch.tar.xz -C / \
-  && tar -Jxpf /tmp/s6-overlay-x86_64.tar.xz -C / \
-  && rm -f /tmp/s6-overlay-noarch.tar.xz /tmp/s6-overlay-x86_64.tar.xz
+RUN tar xzfh /tmp/s6-overlay-amd64.tar.gz -C / \
+  && rm -rf /tmp/s6-overlay-amd64.tar.gz
+# RUN tar -Jxpf /tmp/s6-overlay-noarch.tar.xz -C / \
+#   && tar -Jxpf /tmp/s6-overlay-x86_64.tar.xz -C / \
+#   && rm -f /tmp/s6-overlay-noarch.tar.xz /tmp/s6-overlay-x86_64.tar.xz
 
 RUN groupadd -r usr1cv8 --gid=2001 \
   && useradd -r -g usr1cv8 --uid=2001 --home-dir=/home/usr1cv8 --shell=/sbin/nologin usr1cv8 \
