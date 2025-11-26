@@ -27,7 +27,7 @@ RUN apt-get update \
     dirmngr \
     gnupg \
   && echo "deb http://http.debian.net/debian/ bullseye main contrib non-free" > /etc/apt/sources.list \
-  && echo "deb http://http.debian.net/debian/ bullseye-backports main" >> /etc/apt/sources.list \
+  # && echo "deb http://http.debian.net/debian/ bullseye-backports main" >> /etc/apt/sources.list \
   && echo "deb http://http.debian.net/debian/ bullseye-proposed-updates main contrib non-free" >> /etc/apt/sources.list \
   && echo "deb http://security.debian.org/debian-security/ bullseye-security main contrib non-free" >> /etc/apt/sources.list \
   && echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections \
