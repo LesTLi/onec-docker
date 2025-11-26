@@ -72,7 +72,7 @@ RUN apt-get update \
   && echo "deb http://snapshot.debian.org/archive/debian/20160413T160058Z/ unstable main" > /etc/apt/sources.list.d/debian-snapshot.list \
   && apt-get -o Acquire::AllowInsecureRepositories=true -o Acquire::Check-Valid-Until=false update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-unauthenticated --no-install-recommends \
-      usrmerge \
+      # usrmerge \
       libpng12-0 \
   && rm -rf  /etc/apt/sources.list.d/debian-snapshot.list \
   && apt-get update \
