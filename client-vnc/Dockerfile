@@ -72,7 +72,7 @@ RUN apt-get update \
   && echo "deb http://snapshot.debian.org/archive/debian/20160413T160058Z/ unstable main" > /etc/apt/sources.list.d/debian-snapshot.list \
   && apt-get -o Acquire::AllowInsecureRepositories=true -o Acquire::Check-Valid-Until=false update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-unauthenticated --no-install-recommends \
-      usrmerge \  
+      # usrmerge \
       libpng12-0 \
   && rm -rf  /etc/apt/sources.list.d/debian-snapshot.list \
   && apt-get update \
@@ -95,7 +95,6 @@ RUN chmod +x /remove-dst-root-ca-x3.sh \
   && /remove-dst-root-ca-x3.sh \
   && rm /remove-dst-root-ca-x3.sh
 
-RUN echo "Listing /tmp:" && ls -lia /tmp/
 # RUN tar xzfh /tmp/s6-overlay-amd64.tar.gz -C / \
 #   && rm -rf /tmp/s6-overlay-amd64.tar.gz
 RUN tar -Jxpf /tmp/s6-overlay-noarch.tar.xz -C / \
