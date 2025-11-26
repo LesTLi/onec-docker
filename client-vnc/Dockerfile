@@ -2,13 +2,11 @@ ARG DOCKER_REGISTRY_URL
 ARG ONEC_VERSION
 FROM ${DOCKER_REGISTRY_URL}/onec-client:${ONEC_VERSION} AS base
 
-FROM debian:bookworm-slim
+FROM debian:bullseye-slim
 ARG ONEC_VERSION
 
 COPY --from=base /opt /opt
 
-# ADD https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay-noarch.tar.xz /tmp/
-# ADD https://github.com/just-containers/s6-overlay/releases/download/v3.2.1.0/s6-overlay-x86_64.tar.xz /tmp/
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz /tmp/
 
 RUN apt-get update \
@@ -28,10 +26,10 @@ RUN apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     dirmngr \
     gnupg \
-  && echo "deb http://http.debian.net/debian/ bookworm main contrib non-free" > /etc/apt/sources.list \
-  && echo "deb http://http.debian.net/debian/ bookworm-backports main" >> /etc/apt/sources.list \
-  && echo "deb http://http.debian.net/debian/ bookworm-proposed-updates main contrib non-free" >> /etc/apt/sources.list \
-  && echo "deb http://security.debian.org/debian-security/ bookworm-security main contrib non-free" >> /etc/apt/sources.list \
+  && echo "deb http://http.debian.net/debian/ bullseye main contrib non-free" > /etc/apt/sources.list \
+  && echo "deb http://http.debian.net/debian/ bullseye-backports main" >> /etc/apt/sources.list \
+  && echo "deb http://http.debian.net/debian/ bullseye-proposed-updates main contrib non-free" >> /etc/apt/sources.list \
+  && echo "deb http://security.debian.org/debian-security/ bullseye-security main contrib non-free" >> /etc/apt/sources.list \
   && echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections \
   && apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -52,14 +50,13 @@ RUN apt-get update \
       x11vnc \
       iproute2 \
       libglu1-mesa \
-  # Install libpng12-0 from debian-snapshot
-  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 7638D0442B90D010 8B48AD6246925553 \
-  && echo "deb http://snapshot.debian.org/archive/debian/20160413T160058Z/ unstable main" > /etc/apt/sources.list.d/debian-snapshot.list \
-  && apt-get -o Acquire::AllowInsecureRepositories=true -o Acquire::Check-Valid-Until=false update \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-unauthenticated --no-install-recommends \
-      usrmerge \
+  # Install libpng12-0 from xenial
+  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 40976EAF437D05B5 \
+  && echo "deb http://security.ubuntu.com/ubuntu xenial-security main" > /etc/apt/sources.list.d/xenial-security.list \
+  && apt-get update \
+  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       libpng12-0 \
-  && rm -rf  /etc/apt/sources.list.d/debian-snapshot.list \
+  && rm -rf  /etc/apt/sources.list.d/xenial-security.list \
   && apt-get update \
   # Install libwebkitgtk from stretch
   && echo "deb http://archive.debian.org/debian/ stretch main contrib non-free" > /etc/apt/sources.list.d/stretch.list \
@@ -82,9 +79,6 @@ RUN chmod +x /remove-dst-root-ca-x3.sh \
 
 RUN tar xzfh /tmp/s6-overlay-amd64.tar.gz -C / \
   && rm -rf /tmp/s6-overlay-amd64.tar.gz
-# RUN tar -Jxpf /tmp/s6-overlay-noarch.tar.xz -C / \
-#   && tar -Jxpf /tmp/s6-overlay-x86_64.tar.xz -C / \
-#   && rm -f /tmp/s6-overlay-noarch.tar.xz /tmp/s6-overlay-x86_64.tar.xz
 
 RUN groupadd -r usr1cv8 --gid=2001 \
   && useradd -r -g usr1cv8 --uid=2001 --home-dir=/home/usr1cv8 --shell=/sbin/nologin usr1cv8 \

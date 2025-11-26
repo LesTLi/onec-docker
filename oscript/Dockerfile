@@ -1,10 +1,10 @@
 ARG DOCKER_REGISTRY_URL=library
 ARG BASE_IMAGE=debian
-ARG BASE_TAG=bookworm-slim
+ARG BASE_TAG=bullseye-slim
 
 FROM ${DOCKER_REGISTRY_URL}/${BASE_IMAGE}:${BASE_TAG}
 
-# Installing mono and oscript dependencies
+# Установка зависимостей mono и oscript
 ARG MONO_VERSION=6.12.0.122
 
 RUN apt-get update \
@@ -29,7 +29,7 @@ RUN apt-get update \
     /var/cache/debconf \
     /tmp/*
 
-# remove DST Root CA X3 cert if it exists
+# Удаление сертификата DST Root CA X3, если он существует
 COPY ./scripts/remove-dst-root-ca-x3.sh /remove-dst-root-ca-x3.sh
 RUN chmod +x /remove-dst-root-ca-x3.sh \
   && /remove-dst-root-ca-x3.sh \
@@ -50,7 +50,7 @@ RUN wget https://github.com/${OVM_REPOSITORY_OWNER}/ovm/releases/download/${OVM_
 ENV OSCRIPTBIN=/root/.local/share/ovm/current/bin
 ENV PATH="$OSCRIPTBIN:$PATH"
 
-# Update and prepare oscript packages
+# Обновление и подготовка пакетов oscript
 RUN opm install opm \
   && opm update --all \
   && opm install ${ONESCRIPT_PACKAGES} \
