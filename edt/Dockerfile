@@ -7,7 +7,7 @@ ARG BASE_IMAGE=eclipse-temurin
 ARG BASE_TAG=11
 ARG DOCKER_REGISTRY_URL=library
 
-FROM ${DOWNLOADER_REGISTRY_URL}/${DOWNLOADER_IMAGE}:${DOWNLOADER_TAG} AS downloader
+FROM ${DOWNLOADER_REGISTRY_URL:+"$DOWNLOADER_REGISTRY_URL/"}${DOWNLOADER_IMAGE}:${DOWNLOADER_TAG} AS downloader
 
 # Копирование скрипта скачивания и локальных дистрибутивов
 COPY ./scripts/download_yard.sh /download.sh

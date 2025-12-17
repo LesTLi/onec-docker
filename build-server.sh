@@ -26,7 +26,7 @@ docker build \
     --build-arg BASE_IMAGE=ubuntu \
     --build-arg BASE_TAG=20.04 \
     --build-arg ONESCRIPT_PACKAGES="yard" \
-    -t $DOCKER_REGISTRY_URL/oscript-downloader:latest \
+    -t ${DOCKER_REGISTRY_URL:+:"$DOCKER_REGISTRY_URL/"}oscript-downloader:latest \
 	-f oscript/Dockerfile \
     $last_arg
 
@@ -37,8 +37,12 @@ docker build \
     --build-arg DOCKER_REGISTRY_URL=$DOCKER_REGISTRY_URL \
     --build-arg BASE_IMAGE=oscript-downloader \
     --build-arg BASE_TAG=latest \
-    -t $DOCKER_REGISTRY_URL/onec-server:$ONEC_VERSION \
+    -t ${DOCKER_REGISTRY_URL:+:"$DOCKER_REGISTRY_URL/"}onec-server:$ONEC_VERSION \
     -f server/Dockerfile \
     $last_arg
 
-docker push $DOCKER_REGISTRY_URL/onec-server:$ONEC_VERSION
+if [[ -n "$DOCKER_REGISTRY_URL" ]]; then
+  docker push $DOCKER_REGISTRY_URL/onec-server:$ONEC_VERSION
+else
+  echo "DOCKER_REGISTRY_URL not set, skipping docker push."
+fi
