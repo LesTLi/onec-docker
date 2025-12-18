@@ -96,6 +96,8 @@ docker build \
     -f k8s-jenkins-agent/Dockerfile \
     $last_arg
 
-if [[ $PUSH_AGENT != "false" ]] ; then
+if [[ $PUSH_AGENT != "false" ]] && [[ -n "$DOCKER_REGISTRY_URL" ]]; then
   docker push $DOCKER_REGISTRY_URL/base-jenkins-agent:$ONEC_VERSION
+else
+  echo "DOCKER_REGISTRY_URL not set or PUSH_AGENT is false, skipping docker push."
 fi

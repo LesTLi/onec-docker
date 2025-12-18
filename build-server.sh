@@ -37,7 +37,7 @@ docker build \
     --build-arg DOCKER_REGISTRY_URL=$DOCKER_REGISTRY_URL \
     --build-arg BASE_IMAGE=oscript-downloader \
     --build-arg BASE_TAG=latest \
-    -t ${DOCKER_REGISTRY_URL:+:"$DOCKER_REGISTRY_URL/"}onec-server:$ONEC_VERSION \
+    -t ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}onec-server:$ONEC_VERSION \
     -f server/Dockerfile \
     $last_arg
 
