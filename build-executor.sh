@@ -36,10 +36,14 @@ DOCKER_BUILDKIT=1 docker build \
     --secret id=dev1c_executor_api_key,src=/tmp/dev1c_executor_api_key.txt \
     --pull \
     --build-arg EXECUTOR_VERSION="$EXECUTOR_VERSION" \
-    -t $DOCKER_REGISTRY_URL/executor:$executor_version \
+    -t ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}executor:$executor_version \
     -f "executor/Dockerfile" \
     $last_arg
 
 shred -fzu "/tmp/dev1c_executor_api_key.txt" || true
 
-docker push $DOCKER_REGISTRY_URL/executor:$executor_version
+if [[ -n "$DOCKER_REGISTRY_URL" ]]; then
+  docker push $DOCKER_REGISTRY_URL/executor:$executor_version
+else
+  echo "DOCKER_REGISTRY_URL not set, skipping docker push."
+fi

@@ -28,8 +28,12 @@ docker build \
     --build-arg DOCKER_REGISTRY_URL=$DOCKER_REGISTRY_URL \
     --build-arg BASE_IMAGE=edt \
     --build-arg BASE_TAG=$edt_escaped \
-    -t $DOCKER_REGISTRY_URL/edt-agent:$edt_escaped \
-	-f k8s-jenkins-agent/Dockerfile \
+    -t ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}edt-agent:$edt_escaped \
+    -f k8s-jenkins-agent/Dockerfile \
     $last_arg
 
-docker push $DOCKER_REGISTRY_URL/edt-agent:$edt_escaped
+if [[ -n "$DOCKER_REGISTRY_URL" ]]; then
+  docker push $DOCKER_REGISTRY_URL/edt-agent:$edt_escaped
+else
+  echo "DOCKER_REGISTRY_URL not set, skipping docker push."
+fi
