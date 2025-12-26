@@ -96,4 +96,4 @@ ENV DISPLAY_HEIGHT=900
 
 EXPOSE 5900
 
-ENTRYPOINT ["/init"]
+ENTRYPOINT ["/init > init.log"]
