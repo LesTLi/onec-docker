@@ -25,17 +25,25 @@ docker build \
     --build-arg ONEC_USERNAME=$ONEC_USERNAME \
     --build-arg ONEC_PASSWORD=$ONEC_PASSWORD \
     --build-arg ONEC_VERSION=$ONEC_VERSION \
-    -t $DOCKER_REGISTRY_URL/crs:$ONEC_VERSION \
+    -t ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}crs:$ONEC_VERSION \
     -f crs/Dockerfile \
     $last_arg
 
-docker push $DOCKER_REGISTRY_URL/crs:$ONEC_VERSION
+if [[ -n "$DOCKER_REGISTRY_URL" ]]; then
+  docker push $DOCKER_REGISTRY_URL/crs:$ONEC_VERSION
+else
+  echo "DOCKER_REGISTRY_URL not set, skipping docker push."
+fi
 
 docker build \
     --build-arg DOCKER_REGISTRY_URL=$DOCKER_REGISTRY_URL \
     --build-arg ONEC_VERSION=$ONEC_VERSION \
-    -t $DOCKER_REGISTRY_URL/crs-apache:$ONEC_VERSION \
+    -t ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}crs-apache:$ONEC_VERSION \
     -f crs-apache/Dockerfile \
     $last_arg
 
-docker push $DOCKER_REGISTRY_URL/crs-apache:$ONEC_VERSION
+if [[ -n "$DOCKER_REGISTRY_URL" ]]; then
+  docker push $DOCKER_REGISTRY_URL/crs-apache:$ONEC_VERSION
+else
+  echo "DOCKER_REGISTRY_URL not set, skipping docker push."
+fi

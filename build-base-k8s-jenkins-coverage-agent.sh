@@ -30,8 +30,12 @@ docker build \
    --build-arg BASE_TAG=$ONEC_VERSION \
    --build-arg EDT_VERSION=$EDT_VERSION \
    --build-arg COVERAGE41C_VERSION=$COVERAGE41C_VERSION \
-   -t $DOCKER_REGISTRY_URL/base-jenkins-coverage-agent:$ONEC_VERSION \
+   -t ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}base-jenkins-coverage-agent:$ONEC_VERSION \
    -f coverage41C/Dockerfile \
    $last_arg
 
-docker push $DOCKER_REGISTRY_URL/base-jenkins-coverage-agent:$ONEC_VERSION
+if [[ -n "$DOCKER_REGISTRY_URL" ]]; then
+  docker push $DOCKER_REGISTRY_URL/base-jenkins-coverage-agent:$ONEC_VERSION
+else
+  echo "DOCKER_REGISTRY_URL not set, skipping docker push."
+fi

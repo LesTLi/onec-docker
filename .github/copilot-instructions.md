@@ -52,7 +52,7 @@ Each directory represents a specific Docker image:
    ```
 3. **Base image pattern**: Use registry URL pattern:
    ```dockerfile
-   FROM ${DOCKER_REGISTRY_URL}/base-image:tag
+   FROM ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}base-image:tag
    ```
 4. **Labels**: Include maintainer information
 5. **Layer optimization**: Combine RUN commands to minimize layers
@@ -138,7 +138,7 @@ Follow existing pattern for Make targets:
 ## Common Patterns to Follow
 
 ### Container Naming
-- Use pattern: `${DOCKER_REGISTRY_URL}/onec-<component>:${VERSION}`
+- Use pattern: `${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}onec-<component>:${VERSION}`
 - Tag both specific version and 'latest'
 - Use descriptive suffixes (-nls, -vnc, etc.)
 

@@ -38,7 +38,7 @@ docker build \
     --build-arg BASE_IMAGE=ubuntu \
     --build-arg BASE_TAG=20.04 \
     --build-arg ONESCRIPT_PACKAGES="yard" \
-    -t $DOCKER_REGISTRY_URL/oscript-downloader:latest \
+    -t ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}oscript-downloader:latest \
         -f oscript/Dockerfile \
     $last_arg
 
@@ -51,6 +51,6 @@ docker build \
     --build-arg DOWNLOADER_REGISTRY_URL=$DOCKER_REGISTRY_URL \
     --build-arg DOWNLOADER_IMAGE=oscript-downloader \
     --build-arg DOWNLOADER_TAG=latest \
-    -t $DOCKER_REGISTRY_URL/edt:$edt_escaped \
+    -t ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}edt:$edt_escaped \
     -f edt/Dockerfile \
     $last_arg

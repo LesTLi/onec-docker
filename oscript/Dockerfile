@@ -1,8 +1,8 @@
-ARG DOCKER_REGISTRY_URL=library
+ARG DOCKER_REGISTRY_URL
 ARG BASE_IMAGE=debian
 ARG BASE_TAG=bullseye-slim
 
-FROM ${DOCKER_REGISTRY_URL}/${BASE_IMAGE}:${BASE_TAG}
+FROM ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}${BASE_IMAGE}:${BASE_TAG}
 
 # Установка зависимостей mono и oscript
 ARG MONO_VERSION=6.12.0.122
@@ -13,6 +13,8 @@ RUN apt-get update \
       gnupg \
       dirmngr \
       wget \
+      libicu-dev \
+      pkg-config \
   && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
   && echo "deb http://download.mono-project.com/repo/debian stable-buster main" > /etc/apt/sources.list.d/mono-official-stable.list \
   && apt-get update \
