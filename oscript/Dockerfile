@@ -4,6 +4,15 @@ ARG BASE_TAG=bullseye-slim
 
 FROM ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}${BASE_IMAGE}:${BASE_TAG}
 
+# Установка часового пояса Новосибирск (ДОБАВЛЕНО)
+ENV TZ=Asia/Novosibirsk
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends tzdata \
+  && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+  && echo $TZ > /etc/timezone \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/*
+
 # Установка зависимостей mono и oscript
 ARG MONO_VERSION=6.12.0.122
 
