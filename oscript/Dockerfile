@@ -4,7 +4,7 @@ ARG BASE_TAG=bullseye-slim
 
 FROM ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}${BASE_IMAGE}:${BASE_TAG}
 
-# Установка часового пояса Новосибирск (ДОБАВЛЕНО)
+# Установка часового пояса Новосибирск ( ДОБАВЛЕНО )
 ENV TZ=Asia/Novosibirsk
 RUN apt-get update \
   && apt-get install -y --no-install-recommends tzdata \
