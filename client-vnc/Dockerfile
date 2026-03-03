@@ -96,4 +96,4 @@ ENV DISPLAY_HEIGHT=900
 
 EXPOSE 5900
 
-ENTRYPOINT ["/init > init.log"]
+ENTRYPOINT ["/bin/sh", "-c", "exec /init > /var/log/init.log 2>&1"]
