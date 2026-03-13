@@ -2,9 +2,9 @@ name: Pre-build checks
 
 on:
   push:
-    branches: [ nsk-timezone ]
+    branches: [ main ]
   pull_request:
-    branches: [ nsk-timezone ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
