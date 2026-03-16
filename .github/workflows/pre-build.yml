@@ -2,9 +2,9 @@ name: Pre-build checks
 
 on:
   push:
-    branches: [ main]
+    branches: [ main ]
   pull_request:
-    branches: [ main]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
