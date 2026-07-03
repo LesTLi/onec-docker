@@ -6,10 +6,46 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      onec_version:
+        description: 'Версия платформы 1С'
+        required: false
+        type: string
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run checks
         run: echo "Success"
+
+      - name: Save vervion to file
+        run: |
+          MANUAL_VERSION=${{ github.event.inputs.onec_version }}"
+          FILE_VERSION=""
+          if [ -f .onec.env ]; then
+            FILE_VERSION=$(grep "^ONEC_VERSION=" .onec.env | cut -d'=' -f2 | tr -d '"' | tr -d '"' | tr -d ' ')
+          fi
+
+          if [ -n "$MANUAL_VERSION" ]; then
+            VERSION="$MANUAL_VERSION"
+            echo "Using manual input version: $VERSION"
+          elif [ -n "$FILE_VERSION" ]; then
+            VERSION="$FILE_VERSION"
+            echo "Using version from .onec.env: $VERSION"
+          else
+            VERSION="8.3.27.2130"
+            echo "Using default version: $VERSION"
+          fi
+
+          echo "$VERSION" > onec_version.txt
+
+      - name: Upload version artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shared-version
+          path: onec_version.txt
+          retention-days: 1
