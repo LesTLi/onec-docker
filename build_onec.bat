@@ -49,13 +49,13 @@ docker build --build-arg DOCKER_REGISTRY_URL=%DOCKER_REGISTRY_URL% ^
   -f swarm-jenkins-agent/Dockerfile .
 
 docker save ^
-  localhost:5000/onec-client:8.3.25.1445 ^
-  localhost:5000/onec-client-vnc:8.3.25.1445 ^
+  localhost:5000/onec-client:8.3.27.2130 ^
+  localhost:5000/onec-client-vnc:8.3.27.2130 ^
   localhost:5000/oscript:stable ^
   localhost:5000/oscript-utils:latest ^
   localhost:5000/jdk:21 ^
-  localhost:5000/test-runner:8.3.25.1445 ^
-  localhost:5000/jenkins-agent:8.3.25.1445 ^
+  localhost:5000/test-runner:8.3.27.2130 ^
+  localhost:5000/jenkins-agent:8.3.27.2130 ^
   -o F:\all.tar
 
 @REM docker push %DOCKER_REGISTRY_URL%/onec-client:%ONEC_VERSION%
