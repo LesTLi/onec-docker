@@ -105,16 +105,17 @@ jobs:
       run: |
         CLEAN_VERSION=$(echo "${{ env.ONEC_VERSION }}" | tr -d '\r' | tr -d '\n')
         IMAGE_TARGET="localhost:5000/${{ matrix.image_name }}:$CLEAN_VERSION"
-        FILE_NAME="${{ matrix.image_name }}_${CLEAN_VERSION}.tar"
+        FILE_TARGET="${{ matrix.image_name }}_${CLEAN_VERSION}.tar"
 
         echo "Saving image: $IMAGE_TARGET to $FILE_TARGET"
-        docker save "$IMAGE_TARGET" -o "FILE_TARGET"
+        docker save "$IMAGE_TARGET" -o "$FILE_TARGET"
         ls -lh *.tar
+        echo "CLEAN_VERSION=$CLEAN_VERSION" >> $GITHUB_ENV
         
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.image_name }}_docker_archiver
-        path: ${{ matrix.image_name }}_${CLEAN_VERSION}.tar
+        path: ${{ matrix.image_name }}_${{ env.CLEAN_VERSION }}.tar
     # --------------------------
 
     - name: Update PR Check Status (Completed)
