@@ -28,7 +28,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - script: ['build_base_test-utils.sh']
+          - script: 'build_base_test-utils.sh'
             image_name: 'onec-client-vnc-oscript-jdk-testutils'
 
     steps:
