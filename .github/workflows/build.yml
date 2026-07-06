@@ -1,23 +1,33 @@
 name: Build Docker Images
 
 on:
+  workflow_dispatch: 
+    inputs:
+      onec_version:
+        description: "Версия платформы 1С"
+        required: false
+        type: string
   workflow_run:
     workflows: ["Pre-build checks"]
-    types:
-      - completed
+    types: completed
 
 permissions:
   checks: write
   contents: read
 
+env:
+  ONEC_VERSION: '8.3.27.2130'
+
 jobs:
   build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        script: ['build_base_test-utils.sh']
+        include:
+          - script: ['build_base_test-utils.sh']
+            image_name: 'onec-client-vnc-oscript-jdk-testutils'
 
     steps:
     - name: Maximize build space
@@ -29,6 +39,33 @@ jobs:
         fetch-depth: 0
         repository: ${{ github.event.workflow_run.head_repository.full_name }}
         ref: ${{ github.event.workflow_run.head_sha }}
+
+    - name: Download version from pre-build
+      if: ${{ github.event_name == 'workflow_run' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh run download ${{ github.event.workflow_run.id }} -n shared-version || echo "No artifact found"
+
+        if [ -f onec_version.txt ]; then
+          SHARED_VERSION=$(cat onec_version.txt)
+          echo "Retrieved version from pre-build: $SHARED_VERSION"
+          echo "ONEC_VERSION_TARGET=$SHARED_VERSION" >> $GITHUB_ENV
+        fi
+    - name: Resolve target version for manual run
+      if: ${{ github.event_name == 'workflow_dispatch' }}
+      run: |
+        MANUAL_VERSION="${{ github.event.inputs.onec_version }}"
+        FILE_VERSION=""
+        if [ -f .onec.env ]; then
+          FILE_VERSION=$(grep "^ONEC_VERSION=" .onec.env | cut -d'=' -f2 | tr -d '"' | tr -d "'" | tr -d ' ')
+        fi
+
+        if [ -n "$MANUAL_VERSION ]; then
+          echo "ONEC_VERSION=$MANUAL_VERSION" >> GITHUB_ENV
+        elif [ -n "$FILE_VERSION" ]; then
+          echo "ONEC_VERSION=$FILE_VERSION" >> GITHUB_ENV
+        fi
 
     - name: Create Check Run (Started)
       uses: actions/github-script@v8
@@ -55,6 +92,18 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
+    - name: Apply ONEC_VERSION to .onec.env
+      run: |
+        if [ -f .onec.env ]; then
+          if grep -q "^ONEC_VERSION=" .onec.env; then
+            sed -i "s/^ONEC_VERSION=.*/ONEC_VERSION=${{ env.ONEC_VERSION }}/" .onec.env
+          else
+            echo "ONEC_VERSION=${{ env.ONEC_VERSION }}" >> .onec.env
+          fi
+        else
+          echo "ONEC_VERSION=${{ env.ONEC_VERSION }}" > .onec.env
+        fi
+
     - name: Build Docker images
       env:
         DOCKER_REGISTRY_URL: 'localhost:5000'
@@ -63,7 +112,7 @@ jobs:
         ONEC_USERNAME: ${{ secrets.ONEC_USERNAME}}
         ONEC_PASSWORD: ${{ secrets.ONEC_PASSWORD}}
         DEV1C_EXECUTOR_API_KEY: ""
-        ONEC_VERSION: '8.3.27.2130'
+        ONEC_VERSION: ${{ env.ONEC_VERSION }}
         EDT_VERSION: '2023.3.6'
         EXECUTOR_VERSION: '7.0.3.3'
         COVERAGE41C_VERSION: '2.7.3'
@@ -79,11 +128,16 @@ jobs:
     # --------------------------
     - name: Save Docker image to artifact
       run: |
-        docker save "localhost:5000/onec-client-vnc-oscript-jdk-testutils:8.3.27.2130" -o onec-client-vnc-oscript-jdk-testutils_8.3.27.2130.tar
+        IMAGE_TARGET="localhost:5000/${{ matrix.image_name }}:${{ env.ONEC_VERSION }}"
+        FILE_NAME="${{ matrix.image_name }}_${{ env.ONEC_VERSION }}.tar"
+
+        echo "Saving image: $IMAGE_TARGET to $FILE_TARGET"
+        docker save "$IMAGE_TARGET" -o "FILE_TARGET"
+        
     - uses: actions/upload-artifact@v6
       with:
-        name: onec-client-vnc-oscript-jdk-testutils_8.3.27.2130
-        path: onec-client-vnc-oscript-jdk-testutils_8.3.27.2130.tar
+        name: ${{ matrix.image_name }}_${{ env.ONEC_VERSION }}
+        path: ${{ matrix.image_name }}_${{ env.ONEC_VERSION }}.tar
     # --------------------------
 
     - name: Update PR Check Status (Completed)
