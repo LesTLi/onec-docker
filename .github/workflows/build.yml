@@ -114,7 +114,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.image_name }}_docker_archiver
-        path: "*.tar"
+        path: ${{ matrix.image_name }}_${CLEAN_VERSION}.tar
     # --------------------------
 
     - name: Update PR Check Status (Completed)
