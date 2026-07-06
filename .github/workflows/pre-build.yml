@@ -24,7 +24,7 @@ jobs:
 
       - name: Save vervion to file
         run: |
-          MANUAL_VERSION=${{ github.event.inputs.onec_version }}"
+          MANUAL_VERSION="${{ github.event.inputs.onec_version }}"
           FILE_VERSION=""
           if [ -f .onec.env ]; then
             FILE_VERSION=$(grep "^ONEC_VERSION=" .onec.env | cut -d'=' -f2 | tr -d '"' | tr -d "'" | tr -d ' ')
