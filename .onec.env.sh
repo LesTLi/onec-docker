@@ -1,7 +1,7 @@
 #!/bin/bash
 export ONEC_PASSWORD="onec"
 export ONEC_USERNAME="onec"
-export ONEC_VERSION="8.3.25.1445"
+export ONEC_VERSION="8.3.27.2130"
 export EDT_VERSION="2021.2.7"
 export COVERAGE41C_VERSION=""
 
