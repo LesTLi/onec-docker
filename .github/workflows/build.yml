@@ -108,11 +108,12 @@ jobs:
 
         echo "Saving image: $IMAGE_TARGET to $FILE_TARGET"
         docker save "$IMAGE_TARGET" -o "FILE_TARGET"
+        ls -lh *.tar
         
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.image_name }}_${{ env.ONEC_VERSION }}
-        path: ${{ matrix.image_name }}_${{ env.ONEC_VERSION }}.tar
+        name: ${{ matrix.image_name }}_docker_archiver
+        path: "*.tar"
     # --------------------------
 
     - name: Update PR Check Status (Completed)
