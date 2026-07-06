@@ -38,7 +38,7 @@ jobs:
       with:
         fetch-depth: 0
         repository: ${{ github.event.workflow_run.head_repository.full_name }}
-        ref: ${{ github.event.workflow_run.head_sha }}
+        ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
     - name: Download version from pre-build
       if: ${{ github.event_name == 'workflow_run' }}
