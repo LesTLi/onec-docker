@@ -49,7 +49,7 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             name: 'Build Workflow - ${{ matrix.script }}',
-            head_sha: '${{ github.event.workflow_run.head_sha }}',
+            head_sha: '${{ github.event.workflow_run.head_sha || github.sha }}',
             status: 'in_progress',
             details_url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}',
             output: {
