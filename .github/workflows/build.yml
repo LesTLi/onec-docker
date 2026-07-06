@@ -103,8 +103,9 @@ jobs:
     # --------------------------
     - name: Save Docker image to artifact
       run: |
-        IMAGE_TARGET="localhost:5000/${{ matrix.image_name }}:${{ env.ONEC_VERSION }}"
-        FILE_NAME="${{ matrix.image_name }}_${{ env.ONEC_VERSION }}.tar"
+        CLEAN_VERSION=$(echo "${{ env.ONEC_VERSION }}" | tr -d '\r' | tr -d '\n')
+        IMAGE_TARGET="localhost:5000/${{ matrix.image_name }}:$CLEAN_VERSION"
+        FILE_NAME="${{ matrix.image_name }}_${CLEAN_VERSION}.tar"
 
         echo "Saving image: $IMAGE_TARGET to $FILE_TARGET"
         docker save "$IMAGE_TARGET" -o "FILE_TARGET"
