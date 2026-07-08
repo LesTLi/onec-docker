@@ -105,6 +105,8 @@ RUN groupadd -r grp1cv8 --gid=$onec_gid \
   && chown -R usr1cv8:grp1cv8 /home/usr1cv8
 
 VOLUME /home/usr1cv8/.1cv8/
+
+ARG ONEC_VERSION
 ENV PATH="/opt/1cv8/x86_64/${ONEC_VERSION}:${PATH}"
 
 USER usr1cv8
