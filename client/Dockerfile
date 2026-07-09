@@ -108,7 +108,7 @@ RUN groupadd -r grp1cv8 --gid=$onec_gid \
 VOLUME /home/usr1cv8/.1cv8/
 
 ARG ONEC_VERSION
-ENV PATH="/opt/1cv8/x86_64/${ONEC_VERSION}:${PATH}"
+RUN ln -s /opt/1cv8/x86_64/${ONEC_VERSION}/ibcmd /usr/local/bin/ibcmd
 
 USER usr1cv8
 
