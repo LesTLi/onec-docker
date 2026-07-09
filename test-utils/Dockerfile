@@ -1,6 +1,7 @@
 ARG DOCKER_REGISTRY_URL
 ARG BASE_IMAGE
 ARG BASE_TAG
+ARG ONEC_VERSION
 
 FROM ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}${BASE_IMAGE}:${BASE_TAG}
 
@@ -17,3 +18,5 @@ RUN apt-get update \
 RUN echo '#!/bin/bash\n\nscrot "${@:2}"' | tee /usr/local/bin/nircmd \
   && chmod +x /usr/local/bin/nircmd \
   && rm -rf /etc/services.d/onec 2> /dev/null
+
+ENV PATH="/opt/1cv8/x86_64/${ONEC_VERSION}:${PATH}"
