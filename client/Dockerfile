@@ -2,6 +2,7 @@
 ARG DOCKER_REGISTRY_URL
 ARG BASE_IMAGE
 ARG BASE_TAG
+ARG ONEC_VERSION
 FROM ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}${BASE_IMAGE}:${BASE_TAG} AS downloader
 
 # Копирование скрипта скачивания и локальных дистрибутивов
