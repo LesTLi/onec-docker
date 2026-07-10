@@ -26,6 +26,7 @@ docker build \
     --build-arg BASE_IMAGE=ubuntu \
     --build-arg BASE_TAG=20.04 \
     --build-arg ONESCRIPT_PACKAGES="yard" \
+	--build-arg ONESCRIPT_VERSION="2.0.1" \
     -t $DOCKER_REGISTRY_URL/oscript-downloader:latest \
 	-f oscript/Dockerfile \
     $last_arg
