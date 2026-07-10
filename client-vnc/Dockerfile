@@ -4,7 +4,7 @@ FROM ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}onec-client:${ONEC_VERSION} 
 
 FROM debian:bullseye-slim
 ARG ONEC_VERSION
-
+ENV PATH="${PATH}:/opt/1cv8/current"
 COPY --from=base /opt /opt
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz /tmp/
