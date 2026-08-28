@@ -50,7 +50,8 @@ RUN chmod +x /remove-dst-root-ca-x3.sh \
 ARG OVM_REPOSITORY_OWNER=oscript-library
 ARG OVM_VERSION=v1.6.1
 ARG ONESCRIPT_VERSION=stable
-ARG ONESCRIPT_PACKAGES="add@6.9.5 vanessa-runner"
+ARG ONESCRIPT_PACKAGES="vanessa-runner"
+ARG ADD_VERSION="6.9.5"
 
 RUN wget https://github.com/${OVM_REPOSITORY_OWNER}/ovm/releases/download/${OVM_VERSION}/ovm.exe \
   && mv ovm.exe /usr/local/bin/ \
@@ -70,6 +71,9 @@ RUN opm install opm \
        && gitsync plugins enable limit \
        && gitsync plugins disable limit; \
      fi
+RUN wget -q "https://github.com/vanessa-opensource/add/releases/download/${ADD_VERSION}/add-${ADD_VERSION}.ospx" -O /tmp/add.ospx \
+    && opm install -f /tmp/add.ospx \
+    && rm /tmp/add.ospx
 
 COPY ./oscript/docker-entrypoint.sh /
 RUN chmod 755 /docker-entrypoint.sh \
