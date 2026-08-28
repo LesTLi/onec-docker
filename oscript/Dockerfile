@@ -71,7 +71,7 @@ RUN opm install opm \
        && gitsync plugins enable limit \
        && gitsync plugins disable limit; \
      fi
-RUN wget -q "https://github.com/vanessa-opensource/add/releases/download/${ADD_VERSION}/add-${ADD_VERSION}.ospx" -O /tmp/add.ospx \
+RUN wget -q "https://github.com/vanessa-opensource/add/releases/download/v${ADD_VERSION}/add-${ADD_VERSION}.ospx" -O /tmp/add.ospx \
     && opm install -f /tmp/add.ospx \
     && rm /tmp/add.ospx
 
