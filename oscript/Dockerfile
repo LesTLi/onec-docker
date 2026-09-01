@@ -71,7 +71,7 @@ RUN opm install opm \
        && gitsync plugins enable limit \
        && gitsync plugins disable limit; \
      fi
-RUN wget https://github.com/vanessa-opensource/add/archive/refs/heads/develop.zip -O add-dev.tar.gz \
+RUN wget https://github.com/vanessa-opensource/add/archive/refs/heads/develop.tar.gz -O add-dev.tar.gz \
     && tar -xzf add-dev.tar.gz \
     && cd add-dev \
     && opm build . \
