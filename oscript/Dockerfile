@@ -71,9 +71,14 @@ RUN opm install opm \
        && gitsync plugins enable limit \
        && gitsync plugins disable limit; \
      fi
-RUN wget -q "https://github.com/vanessa-opensource/add/releases/download/v${ADD_VERSION}/add-${ADD_VERSION}.ospx" -O /tmp/add.ospx \
-    && opm install -f /tmp/add.ospx \
-    && rm /tmp/add.ospx
+RUN wget https://github.com/vanessa-opensource/add/archive/refs/heads/develop.zip -O add-dev.zip
+RUN unzip add-dev.zip
+RUN cd add-dev \
+    && opm build . \
+    && opm install -f *.ospx
+#RUN wget -q "https://github.com/vanessa-opensource/add/releases/download/v${ADD_VERSION}/add-${ADD_VERSION}.ospx" -O /tmp/add.ospx \
+#    && opm install -f /tmp/add.ospx \
+#    && rm /tmp/add.ospx
 
 COPY ./oscript/docker-entrypoint.sh /
 RUN chmod 755 /docker-entrypoint.sh \
