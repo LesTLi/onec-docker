@@ -49,7 +49,7 @@ RUN chmod +x /remove-dst-root-ca-x3.sh \
 # Installing oscript
 ARG OVM_REPOSITORY_OWNER=oscript-library
 ARG OVM_VERSION=v1.6.1
-ARG ONESCRIPT_VERSION=stable
+ARG ONESCRIPT_VERSION=2.1.0
 ARG ONESCRIPT_PACKAGES="vanessa-runner"
 ARG ADD_VERSION="6.9.5"
 
