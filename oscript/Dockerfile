@@ -74,8 +74,7 @@ RUN opm install opm \
 RUN wget https://github.com/vanessa-opensource/add/archive/refs/heads/develop.tar.gz -O add-dev.tar.gz \
     && tar -xzf add-dev.tar.gz \
     && cd add-develop \
-    && find . -type f -name "*.os" -exec sed -i 's/tasks\\cepf.os/tasks\/cepf.os\g' {} + \
-    && find . -type f -name "packagedef" -exec sed -i 's/tasks\\cepf.os/tasks\/cepf.os\g' {} + \
+    && find . -type f \( -name "*.os" -o -name "packagedef" \) -exec sed -i 's|tasks\\|tasks/|g' {} + \
     && opm build . \
     && opm install -f *.ospx
 #RUN wget -q "https://github.com/vanessa-opensource/add/releases/download/v${ADD_VERSION}/add-${ADD_VERSION}.ospx" -O /tmp/add.ospx \
