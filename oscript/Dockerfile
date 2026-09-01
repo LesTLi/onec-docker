@@ -77,6 +77,8 @@ RUN wget https://github.com/vanessa-opensource/add/archive/refs/heads/develop.ta
     && find . -type f \( -name "*.os" -o -name "packagedef" \) -exec sed -i 's|tasks\\|tasks/|g' {} + \
     && opm install logos@1.0.1 \
     && opm install vanessa-runner@2.6.1 \
+    && rm -rf /root/.local/share/ovm/2.1.0/lib/vanessa-runner/oscript_modules/logos \
+    && cp -r /root/.local/share/ovm/2.1.0/lib/logos /root/.local/share/ovm/2.1.0/lib/vanessa-runner/oscript_modules/ \
     && opm build . \
     && opm install -f *.ospx
 #RUN wget -q "https://github.com/vanessa-opensource/add/releases/download/v${ADD_VERSION}/add-${ADD_VERSION}.ospx" -O /tmp/add.ospx \
