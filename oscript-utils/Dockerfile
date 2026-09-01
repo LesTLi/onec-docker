@@ -1,12 +1,11 @@
 ARG DOCKER_REGISTRY_URL
-FROM ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}oscript:1.0.21
+FROM ${DOCKER_REGISTRY_URL:+"$DOCKER_REGISTRY_URL/"}oscript:2.1.0
 LABEL maintainer="Anton Kvashenkin <anton.jugatsu@gmail.com> (@jugatsu)"
 
 RUN opm install vanessa-runner \
   && opm install packman \
   && opm install gitsync \
   && opm install deployka \
-  && opm install add@6.9.5 \
   && opm install vanessa-automation \
   # https://github.com/silverbulleters/vanessa-runner/pull/301
   && sed -i 's/#Использовать JSON/#Использовать json/g' \
