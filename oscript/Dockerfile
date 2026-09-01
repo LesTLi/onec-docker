@@ -73,7 +73,7 @@ RUN opm install opm \
      fi
 RUN wget https://github.com/vanessa-opensource/add/archive/refs/heads/develop.tar.gz -O add-dev.tar.gz \
     && tar -xzf add-dev.tar.gz \
-    && cd add-dev \
+    && cd add-develop \
     && opm build . \
     && opm install -f *.ospx
 #RUN wget -q "https://github.com/vanessa-opensource/add/releases/download/v${ADD_VERSION}/add-${ADD_VERSION}.ospx" -O /tmp/add.ospx \
