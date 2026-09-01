@@ -75,6 +75,7 @@ RUN wget https://github.com/vanessa-opensource/add/archive/refs/heads/develop.ta
     && tar -xzf add-dev.tar.gz \
     && cd add-develop \
     && find . -type f \( -name "*.os" -o -name "packagedef" \) -exec sed -i 's|tasks\\|tasks/|g' {} + \
+    && opm install logos@1.0.3
     && opm install vanessa-runner@2.6.1 \
     && opm build . \
     && opm install -f *.ospx
