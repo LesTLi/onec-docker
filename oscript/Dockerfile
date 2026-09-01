@@ -75,7 +75,7 @@ RUN wget https://github.com/vanessa-opensource/add/archive/refs/heads/develop.ta
     && tar -xzf add-dev.tar.gz \
     && cd add-develop \
     && find . -type f \( -name "*.os" -o -name "packagedef" \) -exec sed -i 's|tasks\\|tasks/|g' {} + \
-    && opm install vanessa-runner \
+    && opm install vanessa-runner@1.17.0 \
     && opm build . \
     && opm install -f *.ospx
 #RUN wget -q "https://github.com/vanessa-opensource/add/releases/download/v${ADD_VERSION}/add-${ADD_VERSION}.ospx" -O /tmp/add.ospx \
