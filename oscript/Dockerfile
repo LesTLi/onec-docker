@@ -51,7 +51,7 @@ ARG OVM_REPOSITORY_OWNER=oscript-library
 ARG OVM_VERSION=v1.6.1
 ARG ONESCRIPT_VERSION=2.1.0
 ARG ONESCRIPT_PACKAGES="vanessa-runner"
-ARG ADD_VERSION="6.9.5"
+ARG ADD_VERSION="6.9.6"
 
 RUN wget https://github.com/${OVM_REPOSITORY_OWNER}/ovm/releases/download/${OVM_VERSION}/ovm.exe \
   && mv ovm.exe /usr/local/bin/ \
@@ -71,19 +71,10 @@ RUN opm install opm \
        && gitsync plugins enable limit \
        && gitsync plugins disable limit; \
      fi
-RUN wget https://github.com/vanessa-opensource/add/archive/refs/heads/develop.tar.gz -O add-dev.tar.gz \
-    && tar -xzf add-dev.tar.gz \
-    && cd add-develop \
-    && find . -type f \( -name "*.os" -o -name "packagedef" \) -exec sed -i 's|tasks\\|tasks/|g' {} + \
-    && opm install logos@1.0.1 \
-    && opm install vanessa-runner@2.6.1 \
-    && rm -rf /root/.local/share/ovm/2.1.0/lib/vanessa-runner/oscript_modules/logos \
-    && cp -r /root/.local/share/ovm/2.1.0/lib/logos /root/.local/share/ovm/2.1.0/lib/vanessa-runner/oscript_modules/ \
-    && opm build . \
-    && opm install -f *.ospx
-#RUN wget -q "https://github.com/vanessa-opensource/add/releases/download/v${ADD_VERSION}/add-${ADD_VERSION}.ospx" -O /tmp/add.ospx \
-#    && opm install -f /tmp/add.ospx \
-#    && rm /tmp/add.ospx
+
+RUN wget -q "https://github.com/vanessa-opensource/add/releases/download/v${ADD_VERSION}/add-${ADD_VERSION}.ospx" -O /tmp/add.ospx \
+    && opm install -f /tmp/add.ospx \
+    && rm /tmp/add.ospx
 
 COPY ./oscript/docker-entrypoint.sh /
 RUN chmod 755 /docker-entrypoint.sh \
