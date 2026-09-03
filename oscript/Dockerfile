@@ -72,8 +72,8 @@ RUN opm install opm \
        && gitsync plugins disable limit; \
      fi
 
-RUN wget -q "https://github.com/vanessa-opensource/add/releases/download/v${ADD_VERSION}/add-${ADD_VERSION}.ospx" -O /tmp/add.ospx \
-    && opm install -f /tmp/add.ospx \
+COPY add-6.9.6.ospx /tmp/add.ospx
+RUN opm install -f /tmp/add.ospx \
     && rm /tmp/add.ospx
 
 COPY ./oscript/docker-entrypoint.sh /
