@@ -72,7 +72,7 @@ RUN opm install opm \
        && gitsync plugins disable limit; \
      fi
 
-COPY oscript/add-6.9.6.ospx /tmp/add.ospx
+COPY oscript/add-6.9.5.ospx /tmp/add.ospx
 RUN opm install -f /tmp/add.ospx \
     && rm /tmp/add.ospx
 
